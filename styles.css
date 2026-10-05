@@ -1,0 +1,180 @@
+/* ---------- modals ---------- */
+
+.wzz-modal .wzz-intro,
+.wzz-modal .wzz-muted {
+	color: var(--text-muted);
+	font-size: var(--font-ui-small);
+}
+
+.wzz-modal .wzz-hint {
+	color: var(--text-muted);
+	font-style: italic;
+	margin: 0.25em 0;
+}
+
+.wzz-modal .wzz-warning {
+	color: var(--text-warning);
+	font-size: var(--font-ui-small);
+}
+
+.wzz-modal .wzz-error {
+	color: var(--text-error);
+	min-height: 1.4em;
+	font-size: var(--font-ui-small);
+}
+
+.wzz-modal .wzz-list-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	margin-top: var(--size-4-2);
+}
+
+.wzz-modal .wzz-list-title {
+	font-weight: var(--font-semibold);
+}
+
+.wzz-modal .wzz-list-actions {
+	font-size: var(--font-ui-small);
+}
+
+/* On mobile the modal content is a flex column; without flex-shrink: 0 the scrolling lists collapse. */
+.wzz-modal .wzz-file-list {
+	max-height: 14em;
+	overflow-y: auto;
+	flex-shrink: 0;
+	border: 1px solid var(--background-modifier-border);
+	border-radius: var(--radius-s);
+	padding: var(--size-4-1) var(--size-4-2);
+	margin: var(--size-4-1) 0 var(--size-4-2);
+}
+
+.wzz-modal .wzz-file-row {
+	display: flex;
+	align-items: center;
+	gap: var(--size-4-2);
+	padding: 2px 0;
+	font-size: var(--font-ui-small);
+	cursor: pointer;
+}
+
+.wzz-modal .wzz-tag {
+	font-size: var(--font-ui-smaller);
+	color: var(--text-muted);
+	border: 1px solid var(--background-modifier-border);
+	border-radius: var(--radius-s);
+	padding: 0 4px;
+}
+
+.wzz-modal .wzz-others ul,
+.wzz-modal .wzz-report-list {
+	max-height: 10em;
+	overflow-y: auto;
+	flex-shrink: 0;
+	font-size: var(--font-ui-small);
+	margin-top: 0;
+}
+
+.wzz-modal .wzz-summary {
+	font-weight: var(--font-semibold);
+}
+
+.wzz-suggest-icon {
+	display: inline-flex;
+	margin-right: var(--size-4-2);
+	color: var(--text-muted);
+	vertical-align: middle;
+}
+
+.wzz-suggest-folder {
+	font-size: var(--font-ui-smaller);
+	color: var(--text-muted);
+}
+
+/* ---------- panel ---------- */
+
+.wzz-panel {
+	padding: var(--size-4-2) var(--size-4-2) var(--size-4-4);
+}
+
+.wzz-panel-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--size-4-2);
+	padding: 0 var(--size-4-1) var(--size-4-2);
+	border-bottom: 1px solid var(--background-modifier-border);
+	margin-bottom: var(--size-4-2);
+}
+
+.wzz-panel-status {
+	display: flex;
+	align-items: center;
+	gap: var(--size-4-1);
+	color: var(--text-muted);
+	font-size: var(--font-ui-small);
+}
+
+.wzz-panel-status-icon {
+	display: inline-flex;
+}
+
+.wzz-panel-actions {
+	display: flex;
+	gap: var(--size-2-2);
+}
+
+.wzz-panel-empty {
+	color: var(--text-muted);
+	font-size: var(--font-ui-small);
+	padding: var(--size-4-2);
+}
+
+.wzz-panel .tree-item-self {
+	align-items: center;
+	gap: var(--size-4-1);
+}
+
+.wzz-panel .wzz-row-icon {
+	display: inline-flex;
+	color: var(--text-faint);
+}
+
+.wzz-panel .wzz-row-icon svg {
+	width: var(--icon-s);
+	height: var(--icon-s);
+}
+
+.wzz-panel .wzz-group-title .tree-item-inner {
+	font-weight: var(--font-semibold);
+}
+
+.wzz-panel .wzz-locked-row {
+	color: var(--text-muted);
+	font-style: italic;
+}
+
+.wzz-panel .tree-item.is-collapsed > .tree-item-self .collapse-icon svg {
+	transform: rotate(-90deg);
+}
+
+/* ---------- note view & explorer ---------- */
+
+.wzz-explorer-unlocked .nav-file-title-content,
+.wzz-explorer-unlocked .tree-item-inner {
+	font-style: italic;
+}
+
+/* The file inside an encrypted folder that holds its real name; nothing to open or edit. */
+.nav-file:has(> .nav-file-title[data-path$="/folder.wzzfolder"]) {
+	display: none;
+}
+
+.wzz-status {
+	cursor: pointer;
+}
+
+.wzz-settings-info {
+	color: var(--text-muted);
+	font-size: var(--font-ui-small);
+}

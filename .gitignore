@@ -1,0 +1,19 @@
+# dependencies
+node_modules/
+
+# build output (npm run build)
+main.js
+*.map
+tests/.build/
+
+# Obsidian plugin data (settings, journal) if the folder is ever used as a plugin folder
+data.json
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# local dev notes
+HANDOFF.md
