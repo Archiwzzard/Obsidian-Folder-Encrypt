@@ -1,6 +1,6 @@
 {
   "name": "obsidian-folder-encrypt",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Obsidian plugin: encrypt notes incl. file names, or whole folders",
   "main": "main.js",
   "scripts": {

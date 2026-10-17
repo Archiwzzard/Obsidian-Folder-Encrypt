@@ -1,7 +1,7 @@
 {
 	"id": "folder-encrypt",
 	"name": "Folder Encrypt",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"minAppVersion": "1.13.0",
 	"description": "Encrypt notes including their file names, or whole folders at once. A companion to Meld Encrypt that uses the same file format. Notes are only decrypted in memory.",
 	"author": "archiwzzard",
