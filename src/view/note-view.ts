@@ -366,7 +366,7 @@ export class EncryptedNoteView extends MarkdownView {
 		if (this.unpatchHeader || typeof leaf.updateHeader !== 'function') {
 			return;
 		}
-		// eslint-disable-next-line @typescript-eslint/no-this-alias
+		// eslint-disable-next-line @typescript-eslint/no-this-alias -- the patched function gets its own `this` from Obsidian and also needs the view
 		const view = this;
 		this.unpatchHeader = around(leaf as { updateHeader: (...args: unknown[]) => unknown }, {
 			updateHeader(next) {

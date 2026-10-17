@@ -452,7 +452,7 @@ export class Operations {
 		const marker = await this.app.vault.create(markerPath(folder), text);
 		if ((await this.app.vault.read(marker)) !== text) {
 			// our own file from a moment ago, holding nothing but a broken copy of the name
-			await this.app.vault.delete(marker);
+			await this.app.fileManager.trashFile(marker);
 			throw new Error(t('errVerify'));
 		}
 		await this.renameVerified(folder, await this.uniqueFolderPath(folder.parent ?? this.app.vault.getRoot()));
@@ -586,8 +586,7 @@ export class Operations {
 			const blocked: TFolder[] = [];
 			const restored: TFile[] = [];
 			const folders = markers
-				.filter(m => m.parent != null)
-				.map(marker => ({ marker, folder: marker.parent as TFolder }))
+				.flatMap(marker => (marker.parent instanceof TFolder ? [{ marker, folder: marker.parent }] : []))
 				.sort((a, b) => depth(a.folder.path) - depth(b.folder.path));
 			for (const { marker, folder } of folders) {
 				if (blocked.some(b => isInside(folder, b))) {
@@ -670,7 +669,7 @@ export class Operations {
 			if (!halfDone) {
 				for (const marker of restored) {
 					try {
-						await this.app.vault.delete(marker);
+						await this.app.fileManager.trashFile(marker);
 					} catch (error) {
 						report.failed.push(`${marker.path}: ${errorText(error)}`);
 					}

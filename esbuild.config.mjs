@@ -1,7 +1,7 @@
 import esbuild from "esbuild";
 import process from "process";
 import { readFileSync } from "fs";
-import builtins from "builtin-modules";
+import { builtinModules } from "node:module";
 
 const prod = process.argv[2] === "production";
 const manifest = JSON.parse(readFileSync("manifest.json", "utf8"));
@@ -50,7 +50,7 @@ const context = await esbuild.context({
 		"@lezer/common",
 		"@lezer/highlight",
 		"@lezer/lr",
-		...builtins,
+		...builtinModules,
 	],
 	format: "cjs",
 	target: "es2020",

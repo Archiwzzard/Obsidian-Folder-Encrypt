@@ -83,7 +83,7 @@ export class PanelView extends ItemView {
 			byFolder.set(folder, [...(byFolder.get(folder) ?? []), entry]);
 		}
 		const tree = root.createDiv('wzz-tree');
-		for (const folderPath of [...byFolder.keys()].sort(collator.compare)) {
+		for (const folderPath of [...byFolder.keys()].sort((a, b) => collator.compare(a, b))) {
 			this.renderFolderGroup(tree, folderPath, byFolder.get(folderPath) ?? []);
 		}
 	}
@@ -167,7 +167,7 @@ export class PanelView extends ItemView {
 	}
 
 	private renderNode(parent: HTMLElement, node: TreeNode, keyPrefix: string): void {
-		for (const name of [...node.folders.keys()].sort(collator.compare)) {
+		for (const name of [...node.folders.keys()].sort((a, b) => collator.compare(a, b))) {
 			const child = node.folders.get(name);
 			if (child == null) {
 				continue;

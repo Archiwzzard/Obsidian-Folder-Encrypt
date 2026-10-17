@@ -17,10 +17,6 @@ export function nameErrorText(error: NameError): string {
 	}
 }
 
-function destructive(button: ButtonComponent): ButtonComponent {
-	const b = button as ButtonComponent & { setDestructive?: () => ButtonComponent };
-	return typeof b.setDestructive === 'function' ? b.setDestructive() : button.setWarning();
-}
 
 /** Base class: `openAndWait()` resolves with the result when the modal closes. */
 abstract class AsyncModal<T> extends Modal {
@@ -515,7 +511,7 @@ export class ConfirmModal extends AsyncModal<boolean> {
 			.addButton(b => {
 				b.setButtonText(this.confirmText).onClick(() => this.finish(true));
 				if (this.dangerous) {
-					destructive(b);
+					b.setDestructive();
 				} else {
 					b.setCta();
 				}

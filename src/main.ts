@@ -301,7 +301,7 @@ export default class FolderEncryptPlugin extends Plugin {
 		if (typeof vault.getConfig !== 'function') {
 			return;
 		}
-		// eslint-disable-next-line @typescript-eslint/no-this-alias
+		// eslint-disable-next-line @typescript-eslint/no-this-alias -- the patched function gets its own `this` from Obsidian and also needs the plugin
 		const plugin = this;
 		this.register(
 			around(vault as { getConfig: (key: string) => unknown }, {
@@ -322,7 +322,7 @@ export default class FolderEncryptPlugin extends Plugin {
 		if (typeof fileManager.promptForFileRename !== 'function') {
 			return;
 		}
-		// eslint-disable-next-line @typescript-eslint/no-this-alias
+		// eslint-disable-next-line @typescript-eslint/no-this-alias -- the patched function gets its own `this` from Obsidian and also needs the plugin
 		const plugin = this;
 		this.register(
 			around(fileManager as { promptForFileRename: (...args: unknown[]) => unknown }, {

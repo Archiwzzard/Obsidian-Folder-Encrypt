@@ -166,7 +166,7 @@
 }
 
 /* The file inside an encrypted folder that holds its real name; nothing to open or edit. */
-.nav-file:has(> .nav-file-title[data-path$="/folder.wzzfolder"]) {
+.nav-file-title[data-path$="/folder.wzzfolder"] {
 	display: none;
 }
 

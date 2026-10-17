@@ -1,4 +1,4 @@
-import { App, PluginSettingTab, Setting } from 'obsidian';
+import { App, PluginSettingTab, SettingDefinitionItem } from 'obsidian';
 import { t } from './i18n';
 import type FolderEncryptPlugin from './main';
 
@@ -33,63 +33,67 @@ export const DEFAULT_SETTINGS: FolderEncryptSettings = {
 	pending: [],
 };
 
+/** Settings the user can change in the settings tab. */
+type SettingKey = 'autoLockMinutes' | 'explorerNames' | 'confirmPassword' | 'updateLinks';
+
 export class FolderEncryptSettingTab extends PluginSettingTab {
 	constructor(app: App, private readonly plugin: FolderEncryptPlugin) {
 		super(app, plugin);
 	}
 
-	override display(): void {
-		const { containerEl } = this;
-		containerEl.empty();
+	override getSettingDefinitions(): SettingDefinitionItem<SettingKey>[] {
+		return [
+			{
+				name: t('setAutoLock'),
+				desc: t('setAutoLockDesc'),
+				control: { type: 'number', key: 'autoLockMinutes', min: 0, step: 1 },
+			},
+			{ name: t('setExplorer'), desc: t('setExplorerDesc'), control: { type: 'toggle', key: 'explorerNames' } },
+			{ name: t('setConfirm'), desc: t('setConfirmDesc'), control: { type: 'toggle', key: 'confirmPassword' } },
+			{ name: t('setUpdateLinks'), desc: t('setUpdateLinksDesc'), control: { type: 'toggle', key: 'updateLinks' } },
+			{
+				type: 'group',
+				heading: t('setInfoHeading'),
+				items: [
+					{
+						name: t('setInfoHeading'),
+						searchable: false,
+						render: setting => {
+							setting.settingEl.empty();
+							const list = setting.settingEl.createEl('ul', { cls: 'wzz-settings-info' });
+							for (const text of [t('setInfo1'), t('setInfo2'), t('setInfo3')]) {
+								list.createEl('li', { text });
+							}
+						},
+					},
+				],
+			},
+		];
+	}
 
-		new Setting(containerEl)
-			.setName(t('setAutoLock'))
-			.setDesc(t('setAutoLockDesc'))
-			.addText(text => {
-				text.inputEl.type = 'number';
-				text.inputEl.min = '0';
-				text.setValue(String(this.plugin.settings.autoLockMinutes)).onChange(async value => {
-					const minutes = Math.max(0, Math.floor(Number(value)));
-					this.plugin.settings.autoLockMinutes = Number.isFinite(minutes) ? minutes : 0;
-					await this.plugin.saveSettings();
-				});
-			});
+	override getControlValue(key: string): unknown {
+		return this.plugin.settings[key as SettingKey];
+	}
 
-		new Setting(containerEl)
-			.setName(t('setExplorer'))
-			.setDesc(t('setExplorerDesc'))
-			.addToggle(toggle =>
-				toggle.setValue(this.plugin.settings.explorerNames).onChange(async value => {
-					this.plugin.settings.explorerNames = value;
-					await this.plugin.saveSettings();
-					this.plugin.applyExplorerSetting();
-				}),
-			);
-
-		new Setting(containerEl)
-			.setName(t('setConfirm'))
-			.setDesc(t('setConfirmDesc'))
-			.addToggle(toggle =>
-				toggle.setValue(this.plugin.settings.confirmPassword).onChange(async value => {
-					this.plugin.settings.confirmPassword = value;
-					await this.plugin.saveSettings();
-				}),
-			);
-
-		new Setting(containerEl)
-			.setName(t('setUpdateLinks'))
-			.setDesc(t('setUpdateLinksDesc'))
-			.addToggle(toggle =>
-				toggle.setValue(this.plugin.settings.updateLinks).onChange(async value => {
-					this.plugin.settings.updateLinks = value;
-					await this.plugin.saveSettings();
-				}),
-			);
-
-		new Setting(containerEl).setName(t('setInfoHeading')).setHeading();
-		const list = containerEl.createEl('ul', { cls: 'wzz-settings-info' });
-		list.createEl('li', { text: t('setInfo1') });
-		list.createEl('li', { text: t('setInfo2') });
-		list.createEl('li', { text: t('setInfo3') });
+	override async setControlValue(key: string, value: unknown): Promise<void> {
+		const settings = this.plugin.settings;
+		switch (key as SettingKey) {
+			case 'autoLockMinutes': {
+				const minutes = Math.floor(Number(value));
+				settings.autoLockMinutes = Number.isFinite(minutes) ? Math.max(0, minutes) : 0;
+				break;
+			}
+			case 'explorerNames':
+			case 'confirmPassword':
+			case 'updateLinks':
+				settings[key as Exclude<SettingKey, 'autoLockMinutes'>] = value === true;
+				break;
+			default:
+				return;
+		}
+		await this.plugin.saveSettings();
+		if (key === 'explorerNames') {
+			this.plugin.applyExplorerSetting();
+		}
 	}
 }
